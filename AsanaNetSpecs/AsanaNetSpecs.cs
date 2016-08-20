@@ -34,7 +34,7 @@ namespace AsanaNetSpecs
             }).Wait();
         }
         [Test]
-        public void _011_we_should_be_able_to_get_our_users_name_again_without_throwing_a_new_exception()
+        public void _011_we_should_be_able_to_get_our_users_name_again_without_throwing_an_exception()
         {
             Action<string, string, string> errorAction = GetFailedAction();
             var asanaService = GetAsanaService(errorAction);
