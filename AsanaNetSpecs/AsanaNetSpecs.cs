@@ -33,6 +33,33 @@ namespace AsanaNetSpecs
                 Assert.That(user.Name, Is.Not.Null.Or.Empty);
             });
         }
+        [Test]
+        public void _011_we_should_be_able_to_get_our_users_name_again_without_throwing_a_new_exception()
+        {
+            Action<string, string, string> errorAction = GetFailedAction();
+            var asanaService = GetAsanaService(errorAction);
+            asanaService.GetMe(request =>
+            {
+                var user = request as AsanaUser;
+                Assert.That(user.Name, Is.Not.Null.Or.Empty);
+            });
+        }
+
+        [Test]
+        public void _020_we_should_be_able_to_get_at_least_one_workspace()
+        {
+            Action<string, string, string> errorAction = GetFailedAction();
+            var asanaService = GetAsanaService(errorAction);
+            var hasWorkspaces = false;
+            asanaService.GetWorkspaces(request =>
+            {
+                foreach (AsanaWorkspace asanaWorkspace in request)
+                {
+                    hasWorkspaces = true;
+                }
+            });
+            Assert.That(hasWorkspaces);
+        }
 
         private static Action<string, string, string> GetFailedAction()
         {

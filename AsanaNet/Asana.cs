@@ -66,6 +66,11 @@ namespace AsanaNet
 
         #region Methods
 
+        static Asana()
+        {
+            AsanaFunction.InitFunctions();
+        }
+
         /// <summary>
         /// Creates a new Asana entry point.
         /// </summary>
@@ -82,8 +87,6 @@ namespace AsanaNet
 				APIKey = apiKeyOrBearerToken;
 				EncodedAPIKey = Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes(apiKeyOrBearerToken + ":"));
 			}
-
-            AsanaFunction.InitFunctions();
         }
 
         /// <summary>
