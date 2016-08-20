@@ -96,6 +96,7 @@
   <ItemGroup>
     <Content Include="T4\AsanaFunctionDefinitions.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
