@@ -31,7 +31,7 @@ namespace AsanaNetSpecs
             {
                 var user = request as AsanaUser;
                 Assert.That(user.Name, Is.Not.Null.Or.Empty);
-            });
+            }).Wait();
         }
         [Test]
         public void _011_we_should_be_able_to_get_our_users_name_again_without_throwing_a_new_exception()
@@ -42,7 +42,7 @@ namespace AsanaNetSpecs
             {
                 var user = request as AsanaUser;
                 Assert.That(user.Name, Is.Not.Null.Or.Empty);
-            });
+            }).Wait();
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace AsanaNetSpecs
                 {
                     hasWorkspaces = true;
                 }
-            });
+            }).Wait();
             Assert.That(hasWorkspaces);
         }
 
