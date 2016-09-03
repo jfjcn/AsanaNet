@@ -10,10 +10,6 @@ namespace RoiCode.AsanaDotNet
     public class AsanaUser : AsanaObject
     {
 
-        public AsanaUser()
-        {    
-        }
-
         [DeserializeAs(Name = "name")]
         [AsanaDataAttribute("name")]
         public string Name { get; set; }
@@ -25,6 +21,10 @@ namespace RoiCode.AsanaDotNet
         [DeserializeAs(Name = "workspaces")]
         [AsanaDataAttribute("workspaces")]
         public List<AsanaWorkspace> Workspaces { get; set; }
+
+        public AsanaUser()
+        {
+        }
 
         // ------------------------------------------------------
 
