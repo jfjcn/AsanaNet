@@ -13,24 +13,35 @@ namespace RoiCode.AsanaDotNet
         {
         }
 
-        public RoiRestClient(string baseUrl, IAuthenticator authenticator)
+        public RoiRestClient(string baseUrl, IAuthenticator authenticator) :
+            this(baseUrl, authenticator, false)
+        {
+
+        }
+
+        public RoiRestClient(string baseUrl, IAuthenticator authenticator, bool useAdditionalTlsOrSslSecurity)
         {
             InternalRestClient = new RestClient(baseUrl);
-            ServicePointManager.SecurityProtocol = (SecurityProtocolType) 192 |
-                                                   (SecurityProtocolType) 768 | 
-                                                   (SecurityProtocolType) 3072;
+
             if (authenticator != null)
             {
                 InternalRestClient.Authenticator = authenticator;
             }
+            if (useAdditionalTlsOrSslSecurity)
+            {
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 |
+                                                   (SecurityProtocolType)768 |
+                                                   (SecurityProtocolType)3072;
+            }
         }
 
-        public RoiRestClientResponse<TReturnedEntity> GetSingle<TReturnedEntity>(string resourceRelativePath) where TReturnedEntity : new()
+        public RoiRestClientResponse<TReturnedEntity> GetSingle<TReturnedEntity>(
+            string resourceRelativePath, string rootElementName) where TReturnedEntity : new()
         {
             var request = new RestRequest(Method.GET);
             request.Resource = resourceRelativePath;
             request.RequestFormat = DataFormat.Json;
-            request.RootElement = "data";
+            request.RootElement = rootElementName;
             var response = InternalRestClient.Execute<TReturnedEntity>(request);
 
             var restClientResponse = new RoiRestClientResponse<TReturnedEntity>();
@@ -48,14 +59,14 @@ namespace RoiCode.AsanaDotNet
                 foreach (var parameter in response.Headers)
                 {
                     //look through the headers for ResourceUri - location to the newly created object
-//                    restClientResponse.ResourceUri = null;
-//                    var absoluteUri = response.Headers.Location.AbsoluteUri;
-//                    var lastForwardSlashLocation = absoluteUri.LastIndexOf("/");
-//                    var parsedId =
-//                        absoluteUri.Substring(
-//                            lastForwardSlashLocation + 1,
-//                            absoluteUri.Length - lastForwardSlashLocation - 1);
-//                    restClientResponse.ResourceParsedId = parsedId;
+                    //                    restClientResponse.ResourceUri = null;
+                    //                    var absoluteUri = response.Headers.Location.AbsoluteUri;
+                    //                    var lastForwardSlashLocation = absoluteUri.LastIndexOf("/");
+                    //                    var parsedId =
+                    //                        absoluteUri.Substring(
+                    //                            lastForwardSlashLocation + 1,
+                    //                            absoluteUri.Length - lastForwardSlashLocation - 1);
+                    //                    restClientResponse.ResourceParsedId = parsedId;
                 }
 
             }
