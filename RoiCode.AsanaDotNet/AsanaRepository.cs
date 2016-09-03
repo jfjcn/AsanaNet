@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 
 namespace RoiCode.AsanaDotNet
@@ -22,7 +23,25 @@ namespace RoiCode.AsanaDotNet
 
         public List<AsanaWorkspace> GetWorkspaces()
         {
-            throw new System.NotImplementedException();
+            var client =
+                new RoiRestClient(
+                    AsanaBaseUrl, new
+                    RoiAsanaAuthenticator(AsanaPersonalAccessToken),
+                    true);
+            var result = client.GetMany<AsanaWorkspace>("workspaces", "data");
+
+            return result.ReturnedObject;
+        }
+
+        public AsanaWorkspace GetWorkspace(long workspaceId)
+        {
+            var client =
+                new RoiRestClient(
+                    AsanaBaseUrl, new
+                    RoiAsanaAuthenticator(AsanaPersonalAccessToken),
+                    true);
+            var result = client.GetSingle<AsanaWorkspace>($"workspaces/{workspaceId}", "data");
+            return result.ReturnedObject;
         }
     }
 }
