@@ -43,6 +43,11 @@
   <ItemGroup>
     <Compile Include="AsanaRepository.cs" />
     <Compile Include="Domain\AsanaObject.cs" />
+    <Compile Include="Domain\AsanaProject.cs" />
+    <Compile Include="Domain\AsanaStory.cs" />
+    <Compile Include="Domain\AsanaTag.cs" />
+    <Compile Include="Domain\AsanaTask.cs" />
+    <Compile Include="Domain\AsanaTeam.cs" />
     <Compile Include="Domain\AsanaUser.cs" />
     <Compile Include="Domain\AsanaWorkspace.cs" />
     <Compile Include="Domain\IAsanaData.cs" />
