@@ -6,13 +6,7 @@ namespace RoiCode.AsanaDotNet
     [Serializable]
     [DeserializeAs(Name = "data")]
     public class AsanaWorkspace : AsanaObject
-    { 
-
-        public AsanaWorkspace() { }
-
-//        [DeserializeAs(Name = "id")]
-//        [AsanaDataAttribute("id", SerializationFlags.Omit)]
-//        public Int64 ID { get; set; }
+    {
 
         [DeserializeAs(Name = "name")]
         [AsanaDataAttribute("name")]
@@ -21,6 +15,8 @@ namespace RoiCode.AsanaDotNet
         [DeserializeAs(Name = "is_organization")]
         [AsanaDataAttribute("is_organization")]
         public bool? IsOrganization { get; set; }
+
+        public AsanaWorkspace() { }
 
         // ------------------------------------------------------
 
