@@ -36,12 +36,21 @@ namespace RoiCode.AsanaDotNet
         }
 
         public RoiRestClientResponse<TReturnedEntity> GetSingle<TReturnedEntity>(
+            string resourceRelativePath) where TReturnedEntity : new()
+        {
+            return GetSingle<TReturnedEntity>(resourceRelativePath, null);
+        }
+
+        public RoiRestClientResponse<TReturnedEntity> GetSingle<TReturnedEntity>(
             string resourceRelativePath, string rootElementName) where TReturnedEntity : new()
         {
             var request = new RestRequest(Method.GET);
             request.Resource = resourceRelativePath;
             request.RequestFormat = DataFormat.Json;
-            request.RootElement = rootElementName;
+            if (!string.IsNullOrEmpty(rootElementName))
+            {
+                request.RootElement = rootElementName;
+            }
             var response = InternalRestClient.Execute<TReturnedEntity>(request);
 
             var restClientResponse = new RoiRestClientResponse<TReturnedEntity>();
