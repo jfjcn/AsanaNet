@@ -7,16 +7,12 @@ namespace RoiCode.AsanaDotNet
     
     [Serializable]
     [DeserializeAs(Name = "data")]
-    public class AsanaUser
+    public class AsanaUser : AsanaObject
     {
 
         public AsanaUser()
         {    
         }
-
-        [DeserializeAs(Name = "id")]
-        [AsanaDataAttribute("id", SerializationFlags.Omit)]
-        public Int64 ID { get; set; }
 
         [DeserializeAs(Name = "name")]
         [AsanaDataAttribute("name")]

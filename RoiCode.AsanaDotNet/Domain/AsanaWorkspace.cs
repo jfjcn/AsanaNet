@@ -5,14 +5,14 @@ namespace RoiCode.AsanaDotNet
 {
     [Serializable]
     [DeserializeAs(Name = "data")]
-    public class AsanaWorkspace
+    public class AsanaWorkspace : AsanaObject
     { 
 
         public AsanaWorkspace() { }
 
-        [DeserializeAs(Name = "id")]
-        [AsanaDataAttribute("id", SerializationFlags.Omit)]
-        public Int64 ID { get; set; }
+//        [DeserializeAs(Name = "id")]
+//        [AsanaDataAttribute("id", SerializationFlags.Omit)]
+//        public Int64 ID { get; set; }
 
         [DeserializeAs(Name = "name")]
         [AsanaDataAttribute("name")]
