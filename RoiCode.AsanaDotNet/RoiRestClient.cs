@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -15,6 +16,9 @@ namespace RoiCode.AsanaDotNet
         public RoiRestClient(string baseUrl, IAuthenticator authenticator)
         {
             InternalRestClient = new RestClient(baseUrl);
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType) 192 |
+                                                   (SecurityProtocolType) 768 | 
+                                                   (SecurityProtocolType) 3072;
             if (authenticator != null)
             {
                 InternalRestClient.Authenticator = authenticator;
@@ -26,6 +30,7 @@ namespace RoiCode.AsanaDotNet
             var request = new RestRequest(Method.GET);
             request.Resource = resourceRelativePath;
             request.RequestFormat = DataFormat.Json;
+            request.RootElement = "data";
             var response = InternalRestClient.Execute<TReturnedEntity>(request);
 
             var restClientResponse = new RoiRestClientResponse<TReturnedEntity>();

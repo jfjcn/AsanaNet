@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RestSharp.Deserializers;
 
 namespace RoiCode.AsanaDotNet
 {
     [Serializable]
+    [DeserializeAs(Name = "data")]
     public abstract class AsanaObject
     {
+        [DeserializeAs(Name = "id")]
         [AsanaDataAttribute("id", SerializationFlags.Omit)]
         public Int64 ID { get; protected set; }
 
@@ -27,39 +27,9 @@ namespace RoiCode.AsanaDotNet
         }
         
         /// <summary>
-        /// Creates a new T without requiring a public constructor
-        /// </summary>
-        /// <param name="t"></param>
-        internal static AsanaObject Create(Type t)
-        {
-            try
-            {
-                AsanaObject o = (AsanaObject)Activator.CreateInstance(t, true);
-                return o;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Creates a new T without requiring a public constructor
-        /// </summary>
-        /// <param name="t"></param>
-        /// <param name="ID"></param>
-        /// <returns></returns>
-        internal static AsanaObject Create(Type t, Int64 ID)
-        {
-            AsanaObject o = Create(t);
-            o.ID = ID;
-            return o;
-        }
-
-        /// <summary>
         /// Parameterless contructor
         /// </summary>
-        internal AsanaObject()
+        public AsanaObject()
         {
 
         }

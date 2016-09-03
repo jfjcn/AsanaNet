@@ -1,15 +1,26 @@
 ﻿using System;
+using RestSharp.Deserializers;
 
 namespace RoiCode.AsanaDotNet
 {
     [Serializable]
-    public class AsanaWorkspace : AsanaObject, IAsanaData
-    {
-        [AsanaDataAttribute("name")]
-        public string Name { get; private set; }
+    [DeserializeAs(Name = "data")]
+    public class AsanaWorkspace
+    { 
 
+        public AsanaWorkspace() { }
+
+        [DeserializeAs(Name = "id")]
+        [AsanaDataAttribute("id", SerializationFlags.Omit)]
+        public Int64 ID { get; set; }
+
+        [DeserializeAs(Name = "name")]
+        [AsanaDataAttribute("name")]
+        public string Name { get; set; }
+
+        [DeserializeAs(Name = "is_organization")]
         [AsanaDataAttribute("is_organization")]
-        public bool? IsOrganization { get; private set; }
+        public bool? IsOrganization { get; set; }
 
         // ------------------------------------------------------
 
@@ -18,11 +29,6 @@ namespace RoiCode.AsanaDotNet
         public void Complete()
         {
             throw new NotImplementedException();
-        }
-
-        static public implicit operator AsanaWorkspace(Int64 ID)
-        {
-            return Create(typeof(AsanaWorkspace), ID) as AsanaWorkspace;
         }
 
     }

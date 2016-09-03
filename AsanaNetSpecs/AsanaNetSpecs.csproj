@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsanaNetSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoiAsanaDotNetSpecs.cs" />
   </ItemGroup>
@@ -54,10 +53,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AsanaNet\AsanaNet.csproj">
-      <Project>{3740ED7E-52B6-4D40-92CD-DF0FF0E855E2}</Project>
-      <Name>AsanaNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RoiCode.AsanaDotNet\RoiCode.AsanaDotNet.csproj">
       <Project>{182a9da0-ca59-42a9-8d2d-bc20dce0db08}</Project>
       <Name>RoiCode.AsanaDotNet</Name>

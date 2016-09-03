@@ -1,22 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RestSharp.Deserializers;
 
 namespace RoiCode.AsanaDotNet
 {
+    
     [Serializable]
-    public class AsanaUser : AsanaObject, IAsanaData
+    [DeserializeAs(Name = "data")]
+    public class AsanaUser
     {
+
+        public AsanaUser()
+        {    
+        }
+
+        [DeserializeAs(Name = "id")]
+        [AsanaDataAttribute("id", SerializationFlags.Omit)]
+        public Int64 ID { get; set; }
+
+        [DeserializeAs(Name = "name")]
         [AsanaDataAttribute("name")]
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
+        [DeserializeAs(Name = "email")]
         [AsanaDataAttribute("email")]
-        public string Email { get; private set; }
+        public string Email { get; set; }
 
+        [DeserializeAs(Name = "workspaces")]
         [AsanaDataAttribute("workspaces")]
-        public AsanaWorkspace[] Workspaces { get; private set; }
+        public List<AsanaWorkspace> Workspaces { get; set; }
 
         // ------------------------------------------------------
 
