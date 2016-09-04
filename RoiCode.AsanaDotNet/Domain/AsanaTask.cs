@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RestSharp.Deserializers;
 
 namespace RoiCode.AsanaDotNet
 {
@@ -15,76 +13,70 @@ namespace RoiCode.AsanaDotNet
     }
 
     [Serializable]
-    public class AsanaTask : AsanaObject, IAsanaData
+    [DeserializeAs(Name = "data")]
+    public class AsanaTask : AsanaObject
     {
+        [DeserializeAs(Name = "name")]
         [AsanaDataAttribute     ("name",            SerializationFlags.Required)]
         public string           Name                { get; set; }
 
+        [DeserializeAs(Name = "assignee")]
         [AsanaDataAttribute     ("assignee",        SerializationFlags.Optional, "ID")]
         public AsanaUser        Assignee            { get; set; }
 
+        [DeserializeAs(Name = "assignee_status")]
         [AsanaDataAttribute     ("assignee_status", SerializationFlags.Omit)]
         public AssigneeStatus   AssigneeStatus      { get; set; }
 
+        [DeserializeAs(Name = "created_at")]
         [AsanaDataAttribute     ("created_at",      SerializationFlags.Omit)]
         public string           CreatedAt           { get; private set; }
-//        public AsanaDateTime    CreatedAt           { get; private set; }
+        //        public AsanaDateTime    CreatedAt           { get; private set; }
 
+        [DeserializeAs(Name = "completed")]
         [AsanaDataAttribute     ("completed",       SerializationFlags.Omit)]
         public bool             Completed           { get; set; }
 
+        [DeserializeAs(Name = "completed_at")]
         [AsanaDataAttribute     ("completed_at",    SerializationFlags.Omit)]
         public string           CompletedAt         { get; private set; }
-//        public AsanaDateTime    CompletedAt         { get; private set; }
+        //        public AsanaDateTime    CompletedAt         { get; private set; }
 
+        [DeserializeAs(Name = "due_on")]
         [AsanaDataAttribute     ("due_on",          SerializationFlags.Optional)]
         public string           DueOn               { get; set; }
-//        public AsanaDateTime    DueOn               { get; set; }
+        //        public AsanaDateTime    DueOn               { get; set; }
 
+        [DeserializeAs(Name = "followers")]
         [AsanaDataAttribute     ("followers",       SerializationFlags.Optional)]
-        public AsanaUser[]      Followers           { get; private set; }
+        public List<AsanaUser>      Followers           { get; private set; }
 
+        [DeserializeAs(Name = "")]
         [AsanaDataAttribute     ("modified_at",     SerializationFlags.Omit)]
         public string           ModifiedAt          { get; private set; }
-//        public AsanaDateTime    ModifiedAt          { get; private set; }
+        //        public AsanaDateTime    ModifiedAt          { get; private set; }
 
+        [DeserializeAs(Name = "notes")]
         [AsanaDataAttribute     ("notes",           SerializationFlags.Optional)]
         public string           Notes               { get; set; }
 
+        [DeserializeAs(Name = "projects")]
         [AsanaDataAttribute     ("projects",        SerializationFlags.Optional, "ID")]
-        public AsanaProject[]   Projects            { get; private set; }
+        public List<AsanaProject>   Projects            { get; private set; }
 
-        [AsanaDataAttribute     ("tags",            SerializationFlags.Optional, "ID")]
-        public AsanaTag[]       Tags                { get; private set; }
+//        [DeserializeAs(Name = "tags")]
+//        [AsanaDataAttribute     ("tags",            SerializationFlags.Optional, "ID")]
+//        public List<AsanaTag>       Tags                { get; private set; }
 
+        [DeserializeAs(Name = "workspace")]
         [AsanaDataAttribute     ("workspace",       SerializationFlags.Required, "ID")]
         public AsanaWorkspace   Workspace           { get; private set; }
 
         // ------------------------------------------------------
 
-        public bool IsObjectLocal { get { return ID == 0; } }
-
-        public void Complete()
-        {
-            throw new NotImplementedException();
-        }
-
-        // ------------------------------------------------------
-
-        internal AsanaTask()
+        public AsanaTask()
         {
             
-        }
-
-        public AsanaTask(AsanaWorkspace workspace) 
-        {
-            Workspace = workspace;
-        }
-
-        public AsanaTask(AsanaWorkspace workspace, Int64 id = 0) 
-        {
-            ID = id;
-            Workspace = workspace;
         }
     }
 }
