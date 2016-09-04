@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using NUnit.Framework;
 using RoiCode.AsanaDotNet;
 
@@ -8,8 +9,11 @@ namespace AsanaNetSpecs
     class When_using_the_Asana_Repository
     {
 
-        protected static AsanaRepository AsanaRepository = 
+        protected static AsanaRepository AsanaRepository =
             new AsanaRepository(ConfigurationManager.AppSettings["AsanaPersonalAccessToken"]);
+
+        protected static long BulletJournalWorkspaceId =
+                    Convert.ToInt64(ConfigurationManager.AppSettings["BulletJournalWorkspaceId"]);
 
         [Test]
         public void _010_we_should_be_able_to_get_our_users_name()
@@ -35,6 +39,18 @@ namespace AsanaNetSpecs
                 hasWorkspaces = true;
             }
             Assert.That(hasWorkspaces);
+        }
+
+        [Test]
+        public void _030_we_should_be_able_to_get_our_task_from_our_bullet_journal_workspace()
+        {
+            var myProjects = AsanaRepository.GetMyTasksForMyWorkspaceWithId(BulletJournalWorkspaceId);
+            var projectCounter = 0;
+            foreach (AsanaProject asanaProject in myProjects)
+            {
+                projectCounter++;
+            }
+            Assert.That(projectCounter, Is.EqualTo(3));
         }
 
 

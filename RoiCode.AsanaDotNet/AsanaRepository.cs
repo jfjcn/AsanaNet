@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 
 namespace RoiCode.AsanaDotNet
 {
@@ -65,7 +66,22 @@ namespace RoiCode.AsanaDotNet
 
         private static List<AsanaProject> GetTasksByProjectFrom(List<AsanaTask> returnedObject)
         {
-            throw new NotImplementedException();
+            var allProjectsById = new Dictionary<long, AsanaProject>();
+            AsanaProject currentAsanaProject;
+            foreach (var asanaTask in returnedObject)
+            {
+
+                currentAsanaProject = asanaTask.Projects[0];
+                if (currentAsanaProject == null)
+                {
+                    continue;
+                }
+                if (!allProjectsById.ContainsKey(currentAsanaProject.ID))
+                {
+                    allProjectsById.Add(currentAsanaProject.ID, currentAsanaProject);
+                }
+            }
+            return allProjectsById.Values.ToList();
         }
     }
 }
