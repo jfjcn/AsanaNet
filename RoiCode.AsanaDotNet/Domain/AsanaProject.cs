@@ -34,6 +34,9 @@ namespace RoiCode.AsanaDotNet
         [AsanaDataAttribute("workspace", SerializationFlags.Optional, "ID")] //
         public AsanaWorkspace Workspace { get; set; }
 
+        [DeserializeAs(Name = "tasks")]
+        public List<AsanaTask> Tasks { get; set; }
+
         [DeserializeAs(Name = "followers")]
         [AsanaDataAttribute("followers", SerializationFlags.Optional)] //
         public List<AsanaUser> Followers { get; set; }
@@ -48,6 +51,7 @@ namespace RoiCode.AsanaDotNet
 
         public AsanaProject()
         {
+            Tasks = new List<AsanaTask>();
         }
 
     }

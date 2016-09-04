@@ -49,16 +49,23 @@ namespace RoiCode.AsanaDotNet
                     RoiAsanaAuthenticator(AsanaPersonalAccessToken),
                     true);
 
-            List<AsanaProject> allProjects = new List<AsanaProject>();
+            Dictionary<long, AsanaProject> allProjects = new Dictionary<long, AsanaProject>();
 
             Parallel.ForEach(projectIds,
                 projectId =>
                 {
-                    var result = client.GetSingle<AsanaProject>($"/projects/{projectId}/tasks", "data");
-                    allProjects.Add(result.ReturnedObject);
+                    var result = client.GetSingle<AsanaProject>($"/projects/{projectId}", "data");
+                    allProjects.Add(projectId, result.ReturnedObject);
                 });
 
-            return allProjects;
+            Parallel.ForEach(projectIds,
+                projectId =>
+                {
+                    var result = client.GetMany<AsanaTask>($"/projects/{projectId}/tasks", "data");
+                    allProjects[projectId].Tasks.AddRange(result.ReturnedObject);
+                });
+
+            return allProjects.Values.ToList();
         }
 
         public List<AsanaWorkspace> GetMyWorkspaces()
