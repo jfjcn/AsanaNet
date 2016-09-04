@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Configuration;
+using NUnit.Framework;
 using RoiCode.AsanaDotNet;
 
 namespace AsanaNetSpecs
@@ -7,7 +8,8 @@ namespace AsanaNetSpecs
     class When_using_the_Asana_Repository
     {
 
-        protected static AsanaRepository AsanaRepository = new AsanaRepository();
+        protected static AsanaRepository AsanaRepository = 
+            new AsanaRepository(ConfigurationManager.AppSettings["AsanaPersonalAccessToken"]);
 
         [Test]
         public void _010_we_should_be_able_to_get_our_users_name()
@@ -26,7 +28,7 @@ namespace AsanaNetSpecs
         [Test]
         public void _020_we_should_be_able_to_get_at_least_one_workspace()
         {
-            var myWorkspaces = AsanaRepository.GetWorkspaces();
+            var myWorkspaces = AsanaRepository.GetMyWorkspaces();
             var hasWorkspaces = false;
             foreach (AsanaWorkspace asanaWorkspace in myWorkspaces)
             {

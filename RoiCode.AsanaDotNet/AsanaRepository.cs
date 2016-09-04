@@ -7,8 +7,13 @@ namespace RoiCode.AsanaDotNet
     public class AsanaRepository
     {
         private static readonly string AsanaBaseUrl = @"https://app.asana.com/api/1.0/";
-        private static readonly string AsanaPersonalAccessToken = ConfigurationManager.AppSettings["AsanaPersonalAccessToken"];
-        private static readonly long MyBulletJournalWorkspaceId = 123134;
+
+        public string AsanaPersonalAccessToken { get; }
+
+        public AsanaRepository(string asanaPersonalAccessToken)
+        {
+            AsanaPersonalAccessToken = asanaPersonalAccessToken;
+        }
 
         public AsanaUser GetMe()
         {
@@ -21,8 +26,7 @@ namespace RoiCode.AsanaDotNet
             return result.ReturnedObject;
         }
 
-
-        public List<AsanaWorkspace> GetWorkspaces()
+        public List<AsanaProject> GetMyTasksForMyWorkspaceWithId(long workspaceId)
         {
             var client =
                 new RoiRestClient(
@@ -30,9 +34,10 @@ namespace RoiCode.AsanaDotNet
                     RoiAsanaAuthenticator(AsanaPersonalAccessToken),
                     true);
 
-            var result = client.GetMany<AsanaWorkspace>($"tasks?workspace={MyBulletJournalWorkspaceId}&assignee=me", "data");
+            var result = client.GetMany<AsanaTask>($"tasks?workspace={workspaceId}&assignee=me", "data");
 
-            return result.ReturnedObject;
+            var tasksByProject = GetTasksByProjectFrom(result.ReturnedObject);
+            return tasksByProject;
         }
 
         public List<AsanaWorkspace> GetMyWorkspaces()
@@ -56,6 +61,11 @@ namespace RoiCode.AsanaDotNet
                     true);
             var result = client.GetSingle<AsanaWorkspace>($"workspaces/{workspaceId}", "data");
             return result.ReturnedObject;
+        }
+
+        private static List<AsanaProject> GetTasksByProjectFrom(List<AsanaTask> returnedObject)
+        {
+            throw new NotImplementedException();
         }
     }
 }
