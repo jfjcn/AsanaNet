@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RoiCode.AsanaDotNet
 {
@@ -38,6 +39,26 @@ namespace RoiCode.AsanaDotNet
             var result = client.GetMany<AsanaTask>($"tasks?workspace={workspaceId}&assignee=me", "data");
 
             return result.ReturnedObject;
+        }
+
+        public List<AsanaProject> GetMyTasksForProjectsWithId(IEnumerable<long> projectIds)
+        {
+            var client =
+                new RoiRestClient(
+                    AsanaBaseUrl, new
+                    RoiAsanaAuthenticator(AsanaPersonalAccessToken),
+                    true);
+
+            List<AsanaProject> allProjects = new List<AsanaProject>();
+
+            Parallel.ForEach(projectIds,
+                projectId =>
+                {
+                    var result = client.GetSingle<AsanaProject>($"/projects/{projectId}/tasks", "data");
+                    allProjects.Add(result.ReturnedObject);
+                });
+
+            return allProjects;
         }
 
         public List<AsanaWorkspace> GetMyWorkspaces()

@@ -15,6 +15,15 @@ namespace AsanaNetSpecs
         protected static long BulletJournalWorkspaceId =
                     Convert.ToInt64(ConfigurationManager.AppSettings["BulletJournalWorkspaceId"]);
 
+        protected static long BulletJournalDailyId =
+                    Convert.ToInt64(ConfigurationManager.AppSettings["BulletJournalDailyId"]);
+
+        protected static long BulletJournalWeeklyId =
+                    Convert.ToInt64(ConfigurationManager.AppSettings["BulletJournalWeeklyId"]);
+
+        protected static long BulletJournalMontlyId =
+                    Convert.ToInt64(ConfigurationManager.AppSettings["BulletJournalMontlyId"]);
+        
         [Test]
         public void _010_we_should_be_able_to_get_our_users_name()
         {
@@ -53,8 +62,21 @@ namespace AsanaNetSpecs
             Assert.That(taskCounter, Is.GreaterThan(3));
         }
 
+        [Test]
+        public void _040_we_should_be_able_to_get_all_our_tasks_for_a_few_projects()
+        {
+            var projectIdsToGet = new[] {BulletJournalDailyId, BulletJournalWeeklyId, BulletJournalMontlyId};
+            var myProjects = AsanaRepository.GetMyTasksForProjectsWithId(projectIdsToGet);
+            var projectCounter = 0;
+            foreach (AsanaProject asanaProject in myProjects)
+            {
+                projectCounter++;
+            }
+            Assert.That(projectCounter, Is.EqualTo(projectIdsToGet.Length));
+        }
 
 
+        
 
     }
 }
