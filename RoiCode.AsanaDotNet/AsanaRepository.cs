@@ -8,6 +8,7 @@ namespace RoiCode.AsanaDotNet
     {
         private static readonly string AsanaBaseUrl = @"https://app.asana.com/api/1.0/";
         private static readonly string AsanaPersonalAccessToken = ConfigurationManager.AppSettings["AsanaPersonalAccessToken"];
+        private static readonly long MyBulletJournalWorkspaceId = 123134;
 
         public AsanaUser GetMe()
         {
@@ -22,6 +23,19 @@ namespace RoiCode.AsanaDotNet
 
 
         public List<AsanaWorkspace> GetWorkspaces()
+        {
+            var client =
+                new RoiRestClient(
+                    AsanaBaseUrl, new
+                    RoiAsanaAuthenticator(AsanaPersonalAccessToken),
+                    true);
+
+            var result = client.GetMany<AsanaWorkspace>($"tasks?workspace={MyBulletJournalWorkspaceId}&assignee=me", "data");
+
+            return result.ReturnedObject;
+        }
+
+        public List<AsanaWorkspace> GetMyWorkspaces()
         {
             var client =
                 new RoiRestClient(
