@@ -42,15 +42,15 @@ namespace AsanaNetSpecs
         }
 
         [Test]
-        public void _030_we_should_be_able_to_get_our_task_from_our_bullet_journal_workspace()
+        public void _030_we_should_be_able_to_get_all_our_tasks_from_our_bullet_journal_workspace()
         {
-            var myProjects = AsanaRepository.GetMyTasksForMyWorkspaceWithId(BulletJournalWorkspaceId);
-            var projectCounter = 0;
-            foreach (AsanaProject asanaProject in myProjects)
+            var myTasks = AsanaRepository.GetMyTasksForMyWorkspaceWithId(BulletJournalWorkspaceId);
+            var taskCounter = 0;
+            foreach (AsanaTask asanaProject in myTasks)
             {
-                projectCounter++;
+                taskCounter++;
             }
-            Assert.That(projectCounter, Is.EqualTo(3));
+            Assert.That(taskCounter, Is.GreaterThan(3));
         }
 
 

@@ -30,8 +30,8 @@ namespace RoiCode.AsanaDotNet
 
         [DeserializeAs(Name = "created_at")]
         [AsanaDataAttribute     ("created_at",      SerializationFlags.Omit)]
-        public string           CreatedAt           { get; private set; }
-        //        public AsanaDateTime    CreatedAt           { get; private set; }
+        public string           CreatedAt           { get; set; }
+        //        public AsanaDateTime    CreatedAt           { get; set; }
 
         [DeserializeAs(Name = "completed")]
         [AsanaDataAttribute     ("completed",       SerializationFlags.Omit)]
@@ -39,8 +39,8 @@ namespace RoiCode.AsanaDotNet
 
         [DeserializeAs(Name = "completed_at")]
         [AsanaDataAttribute     ("completed_at",    SerializationFlags.Omit)]
-        public string           CompletedAt         { get; private set; }
-        //        public AsanaDateTime    CompletedAt         { get; private set; }
+        public string           CompletedAt         { get; set; }
+        //        public AsanaDateTime    CompletedAt         { get; set; }
 
         [DeserializeAs(Name = "due_on")]
         [AsanaDataAttribute     ("due_on",          SerializationFlags.Optional)]
@@ -49,12 +49,12 @@ namespace RoiCode.AsanaDotNet
 
         [DeserializeAs(Name = "followers")]
         [AsanaDataAttribute     ("followers",       SerializationFlags.Optional)]
-        public List<AsanaUser>      Followers           { get; private set; }
+        public List<AsanaUser>      Followers           { get; set; }
 
         [DeserializeAs(Name = "")]
         [AsanaDataAttribute     ("modified_at",     SerializationFlags.Omit)]
-        public string           ModifiedAt          { get; private set; }
-        //        public AsanaDateTime    ModifiedAt          { get; private set; }
+        public string           ModifiedAt          { get; set; }
+        //        public AsanaDateTime    ModifiedAt          { get; set; }
 
         [DeserializeAs(Name = "notes")]
         [AsanaDataAttribute     ("notes",           SerializationFlags.Optional)]
@@ -62,15 +62,15 @@ namespace RoiCode.AsanaDotNet
 
         [DeserializeAs(Name = "projects")]
         [AsanaDataAttribute     ("projects",        SerializationFlags.Optional, "ID")]
-        public List<AsanaProject>   Projects            { get; private set; }
+        public List<AsanaProject>   Projects            { get; set; }
 
 //        [DeserializeAs(Name = "tags")]
 //        [AsanaDataAttribute     ("tags",            SerializationFlags.Optional, "ID")]
-//        public List<AsanaTag>       Tags                { get; private set; }
+//        public List<AsanaTag>       Tags                { get; set; }
 
         [DeserializeAs(Name = "workspace")]
         [AsanaDataAttribute     ("workspace",       SerializationFlags.Required, "ID")]
-        public AsanaWorkspace   Workspace           { get; private set; }
+        public AsanaWorkspace   Workspace           { get; set; }
 
         // ------------------------------------------------------
 

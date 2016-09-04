@@ -27,7 +27,7 @@ namespace RoiCode.AsanaDotNet
             return result.ReturnedObject;
         }
 
-        public List<AsanaProject> GetMyTasksForMyWorkspaceWithId(long workspaceId)
+        public List<AsanaTask> GetMyTasksForMyWorkspaceWithId(long workspaceId)
         {
             var client =
                 new RoiRestClient(
@@ -37,8 +37,7 @@ namespace RoiCode.AsanaDotNet
 
             var result = client.GetMany<AsanaTask>($"tasks?workspace={workspaceId}&assignee=me", "data");
 
-            var tasksByProject = GetTasksByProjectFrom(result.ReturnedObject);
-            return tasksByProject;
+            return result.ReturnedObject;
         }
 
         public List<AsanaWorkspace> GetMyWorkspaces()
