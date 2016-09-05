@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -163,7 +162,6 @@ namespace RoiCode.AsanaDotNet
             request.RequestFormat = dataFormat;
             return request;
         }
-
 
     }
 }

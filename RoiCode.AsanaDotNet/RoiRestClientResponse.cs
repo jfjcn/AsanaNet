@@ -2,7 +2,7 @@
 
 namespace RoiCode.AsanaDotNet
 {
-    public class RoiRestClientResponse
+    internal class RoiRestClientResponse
     {
         public bool Success { get; set; }
         public Uri ResourceUri { get; set; }
@@ -13,7 +13,7 @@ namespace RoiCode.AsanaDotNet
 //        public List<Cookie> returnedCookies { get; set; }
     }
 
-    public class RoiRestClientResponse<T> : RoiRestClientResponse
+    internal class RoiRestClientResponse<T> : RoiRestClientResponse
     {
         public T ReturnedObject { get; set; }
     }

@@ -3,7 +3,7 @@ using RestSharp.Authenticators;
 
 namespace RoiCode.AsanaDotNet
 {
-    class RoiAsanaAuthenticator : IAuthenticator
+    internal class RoiAsanaAuthenticator : IAuthenticator
     {
         protected string PersonalAccessToken { get; set; }
 
