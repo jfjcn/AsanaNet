@@ -10,7 +10,7 @@ namespace RoiCode.AsanaDotNet
     {
         [DeserializeAs(Name = "id")]
         [AsanaDataAttribute("id", SerializationFlags.Omit)]
-        public long ID { get; protected set; }
+        public long ID { get; set; }
 
         // memento
         private Dictionary<string, object> _lastSave;

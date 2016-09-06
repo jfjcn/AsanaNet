@@ -76,7 +76,7 @@ namespace RoiCode.AsanaDotNet
 
         public AsanaTask()
         {
-            
+            Projects = new List<AsanaProject>();
         }
     }
 }

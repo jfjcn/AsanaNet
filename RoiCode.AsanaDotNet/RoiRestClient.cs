@@ -116,16 +116,18 @@ namespace RoiCode.AsanaDotNet
             return restClientResponse;
         }
 
-        public RoiRestClientResponse Post<TReturnedEntity>(
-            string resourceRelativePath, TReturnedEntity resourceToCreate)
+        public RoiRestClientResponse<TReturnedEntity> Post<TReturnedEntity>(
+            string resourceRelativePath, object resourceToCreate) where TReturnedEntity : class, new()
         {
-            var request = new RestRequest(Method.POST);
-            request.Resource = resourceRelativePath;
-            request.RequestFormat = DataFormat.Json;
-            request.AddBody(resourceToCreate);
-            var response = InternalRestClient.Execute(request);
+            var request = GetBasicRequest(
+                resourceRelativePath,
+                Method.POST,
+                DataFormat.Json);
 
-            var restClientResponse = new RoiRestClientResponse();
+            request.AddBody(resourceToCreate);
+            var response = InternalRestClient.Execute<TReturnedEntity>(request);
+
+            var restClientResponse = new RoiRestClientResponse<TReturnedEntity>();
 
             if (response.ResponseStatus == ResponseStatus.Error) //TODO: what about other status enums?
             {
@@ -136,6 +138,51 @@ namespace RoiCode.AsanaDotNet
             else
             {
                 restClientResponse.Success = true;
+                restClientResponse.ReturnedObject = null;
+                foreach (var parameter in response.Headers)
+                {
+                    //look through the headers for ResourceUri - location to the newly created object
+                    //                    restClientResponse.ResourceUri = null;
+                    //                    var absoluteUri = response.Headers.Location.AbsoluteUri;
+                    //                    var lastForwardSlashLocation = absoluteUri.LastIndexOf("/");
+                    //                    var parsedId =
+                    //                        absoluteUri.Substring(
+                    //                            lastForwardSlashLocation + 1,
+                    //                            absoluteUri.Length - lastForwardSlashLocation - 1);
+                    //                    restClientResponse.ResourceParsedId = parsedId;
+                }
+
+            }
+            restClientResponse.HttpStatusCode = (int)response.StatusCode;
+            return restClientResponse;
+        }
+
+        public RoiRestClientResponse<TReturnedEntity> Post<TReturnedEntity>(
+            string resourceRelativePath, Dictionary<string, string> keyValuePairs) where TReturnedEntity : class, new()
+        {
+            var request = GetBasicRequest(
+                resourceRelativePath,
+                Method.POST,
+                DataFormat.Json);
+            foreach (var keyValuePair in keyValuePairs)
+            {
+                request.AddParameter(keyValuePair.Key, keyValuePair.Value, ParameterType.RequestBody);
+            }
+            
+            var response = InternalRestClient.Execute<TReturnedEntity>(request);
+
+            var restClientResponse = new RoiRestClientResponse<TReturnedEntity>();
+
+            if (response.ResponseStatus == ResponseStatus.Error) //TODO: what about other status enums?
+            {
+                restClientResponse.Success = false;
+                restClientResponse.ErrorMessage = response.ErrorMessage;
+                restClientResponse.Content = response.Content;
+            }
+            else
+            {
+                restClientResponse.Success = true;
+                restClientResponse.ReturnedObject = null;
                 foreach (var parameter in response.Headers)
                 {
                     //look through the headers for ResourceUri - location to the newly created object

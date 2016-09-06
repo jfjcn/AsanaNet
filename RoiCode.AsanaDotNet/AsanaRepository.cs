@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,9 +18,9 @@ namespace RoiCode.AsanaDotNet
 
         public AsanaUser GetMe()
         {
-            var client = 
+            var client =
                 new RoiRestClient(
-                    AsanaBaseUrl, new 
+                    AsanaBaseUrl, new
                     RoiAsanaAuthenticator(AsanaPersonalAccessToken),
                     true);
             var result = client.GetSingle<AsanaUser>("users/me", "data");
@@ -86,6 +87,32 @@ namespace RoiCode.AsanaDotNet
                     RoiAsanaAuthenticator(AsanaPersonalAccessToken),
                     true);
             var result = client.GetSingle<AsanaWorkspace>($"workspaces/{workspaceId}", "data");
+            return result.ReturnedObject;
+        }
+
+        public AsanaTask CreateAsanaTask(string taskName, AsanaUser userToWhichToAssignTask, AsanaProject projectToWhichToAddTask)
+        {
+            var client =
+                new RoiRestClient(
+                    AsanaBaseUrl, new
+                    RoiAsanaAuthenticator(AsanaPersonalAccessToken),
+                    true);
+
+            var taskToBeCreated = new AsanaTask()
+            {
+                Assignee = userToWhichToAssignTask,
+                Name = taskName,
+            };
+
+            taskToBeCreated.Projects.Add(projectToWhichToAddTask);
+
+            var parameteritizedList = new Dictionary<string, string>();
+            parameteritizedList.Add("assignee", userToWhichToAssignTask.ID.ToString());
+            parameteritizedList.Add("name", taskName);
+            parameteritizedList.Add("projects[0]", projectToWhichToAddTask.ID.ToString());
+//            parameteritizedList.Add("", "");
+
+            var result = client.Post<AsanaTask>($"tasks", taskToBeCreated);
             return result.ReturnedObject;
         }
 
