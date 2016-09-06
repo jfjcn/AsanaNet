@@ -117,7 +117,7 @@ namespace RoiCode.AsanaDotNet
         }
 
         public RoiRestClientResponse<TReturnedEntity> Post<TReturnedEntity>(
-            string resourceRelativePath, object resourceToCreate) where TReturnedEntity : class, new()
+            string resourceRelativePath, object resourceToCreate, string rootElement) where TReturnedEntity : class, new()
         {
             var request = GetBasicRequest(
                 resourceRelativePath,
@@ -125,6 +125,11 @@ namespace RoiCode.AsanaDotNet
                 DataFormat.Json);
 
             request.AddBody(resourceToCreate);
+
+            if (!string.IsNullOrEmpty(rootElement))
+            {
+                request.RootElement = rootElement;
+            }
             var response = InternalRestClient.Execute<TReturnedEntity>(request);
 
             var restClientResponse = new RoiRestClientResponse<TReturnedEntity>();
@@ -137,70 +142,14 @@ namespace RoiCode.AsanaDotNet
             }
             else
             {
+                restClientResponse.ReturnedObject = response.Data;
                 restClientResponse.Success = true;
-                restClientResponse.ReturnedObject = null;
-                foreach (var parameter in response.Headers)
-                {
-                    //look through the headers for ResourceUri - location to the newly created object
-                    //                    restClientResponse.ResourceUri = null;
-                    //                    var absoluteUri = response.Headers.Location.AbsoluteUri;
-                    //                    var lastForwardSlashLocation = absoluteUri.LastIndexOf("/");
-                    //                    var parsedId =
-                    //                        absoluteUri.Substring(
-                    //                            lastForwardSlashLocation + 1,
-                    //                            absoluteUri.Length - lastForwardSlashLocation - 1);
-                    //                    restClientResponse.ResourceParsedId = parsedId;
-                }
-
+                restClientResponse.ReturnedObject = response.Data;
             }
+
             restClientResponse.HttpStatusCode = (int)response.StatusCode;
             return restClientResponse;
         }
-
-        public RoiRestClientResponse<TReturnedEntity> Post<TReturnedEntity>(
-            string resourceRelativePath, Dictionary<string, string> keyValuePairs) where TReturnedEntity : class, new()
-        {
-            var request = GetBasicRequest(
-                resourceRelativePath,
-                Method.POST,
-                DataFormat.Json);
-            foreach (var keyValuePair in keyValuePairs)
-            {
-                request.AddParameter(keyValuePair.Key, keyValuePair.Value, ParameterType.RequestBody);
-            }
-            
-            var response = InternalRestClient.Execute<TReturnedEntity>(request);
-
-            var restClientResponse = new RoiRestClientResponse<TReturnedEntity>();
-
-            if (response.ResponseStatus == ResponseStatus.Error) //TODO: what about other status enums?
-            {
-                restClientResponse.Success = false;
-                restClientResponse.ErrorMessage = response.ErrorMessage;
-                restClientResponse.Content = response.Content;
-            }
-            else
-            {
-                restClientResponse.Success = true;
-                restClientResponse.ReturnedObject = null;
-                foreach (var parameter in response.Headers)
-                {
-                    //look through the headers for ResourceUri - location to the newly created object
-                    //                    restClientResponse.ResourceUri = null;
-                    //                    var absoluteUri = response.Headers.Location.AbsoluteUri;
-                    //                    var lastForwardSlashLocation = absoluteUri.LastIndexOf("/");
-                    //                    var parsedId =
-                    //                        absoluteUri.Substring(
-                    //                            lastForwardSlashLocation + 1,
-                    //                            absoluteUri.Length - lastForwardSlashLocation - 1);
-                    //                    restClientResponse.ResourceParsedId = parsedId;
-                }
-
-            }
-            restClientResponse.HttpStatusCode = (int)response.StatusCode;
-            return restClientResponse;
-        }
-
 
         private static RestRequest GetBasicRequest(string resourceRelativePath, Method httpMethod, DataFormat dataFormat)
         {

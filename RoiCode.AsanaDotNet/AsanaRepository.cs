@@ -107,12 +107,6 @@ namespace RoiCode.AsanaDotNet
 
             taskToBeCreated.Projects.Add(projectToWhichToAddTask);
 
-            var parameteritizedList = new Dictionary<string, string>();
-            parameteritizedList.Add("assignee", userToWhichToAssignTask.ID.ToString());
-            parameteritizedList.Add("name", taskName);
-            parameteritizedList.Add("projects[0]", projectToWhichToAddTask.ID.ToString());
-//            parameteritizedList.Add("", "");
-
             var dataToPost = new RestDataContainerForPost()
             {
                 data = new AsanaTaskPostModel()
@@ -120,13 +114,12 @@ namespace RoiCode.AsanaDotNet
                     assignee = userToWhichToAssignTask.ID,
                     name = taskName,
                     notes = "test notes",
-//                    projects = $"[{projectToWhichToAddTask.ID}]",
+                    projects = projectToWhichToAddTask.ID.ToString(),
                     workspace = workspaceId
-//                    projects = new []{ projectToWhichToAddTask }
                 }
             };
 
-            var result = client.Post<AsanaTask>($"tasks", dataToPost);
+            var result = client.Post<AsanaTask>($"tasks", dataToPost, "data");
             return result.ReturnedObject;
         }
 
