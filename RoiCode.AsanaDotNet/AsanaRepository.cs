@@ -90,7 +90,8 @@ namespace RoiCode.AsanaDotNet
             return result.ReturnedObject;
         }
 
-        public AsanaTask CreateAsanaTask(string taskName, AsanaUser userToWhichToAssignTask, AsanaProject projectToWhichToAddTask)
+        public AsanaTask CreateAsanaTask(string taskName, AsanaUser userToWhichToAssignTask, 
+            AsanaProject projectToWhichToAddTask, long workspaceId)
         {
             var client =
                 new RoiRestClient(
@@ -112,7 +113,20 @@ namespace RoiCode.AsanaDotNet
             parameteritizedList.Add("projects[0]", projectToWhichToAddTask.ID.ToString());
 //            parameteritizedList.Add("", "");
 
-            var result = client.Post<AsanaTask>($"tasks", taskToBeCreated);
+            var dataToPost = new RestDataContainerForPost()
+            {
+                data = new AsanaTaskPostModel()
+                {
+                    assignee = userToWhichToAssignTask.ID,
+                    name = taskName,
+                    notes = "test notes",
+//                    projects = $"[{projectToWhichToAddTask.ID}]",
+                    workspace = workspaceId
+//                    projects = new []{ projectToWhichToAddTask }
+                }
+            };
+
+            var result = client.Post<AsanaTask>($"tasks", dataToPost);
             return result.ReturnedObject;
         }
 

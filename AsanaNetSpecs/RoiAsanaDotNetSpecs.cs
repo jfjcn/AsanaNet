@@ -97,7 +97,8 @@ namespace AsanaNetSpecs
                 AsanaRepository.CreateAsanaTask(
                     "new task created from specs",
                     userToWhichToAssignTask,
-                    projectToWhichToAddTask);
+                    projectToWhichToAddTask,
+                    BulletJournalWorkspaceId);
 
             Assert.That(newlyCreatedTask.ID, Is.GreaterThan(0));
         }

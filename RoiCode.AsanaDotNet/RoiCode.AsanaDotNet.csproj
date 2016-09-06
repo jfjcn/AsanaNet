@@ -51,6 +51,8 @@
     <Compile Include="Domain\AsanaWorkspace.cs" />
     <Compile Include="Domain\IAsanaData.cs" />
     <Compile Include="Helpers\AsanaAttributes.cs" />
+    <Compile Include="Helpers\RestDataContainerForPost.cs" />
+    <Compile Include="PostModels\AsanaTaskPostModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\PropertyFormatProvider.cs" />
     <Compile Include="RoiAsanaAuthenticator.cs" />
