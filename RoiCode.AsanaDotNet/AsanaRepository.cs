@@ -93,6 +93,7 @@ namespace RoiCode.AsanaDotNet
         public AsanaTask CreateAsanaTask(string taskName, AsanaUser userToWhichToAssignTask, 
             AsanaProject projectToWhichToAddTask, long workspaceId)
         {
+            //TODO: see if we still need this workspace
             var client =
                 new RoiRestClient(
                     AsanaBaseUrl, new
