@@ -52,15 +52,11 @@ namespace RoiCode.AsanaDotNet
             Parallel.ForEach(projectIds,
                 projectId =>
                 {
-                    var result = client.GetSingle<AsanaProject>($"/projects/{projectId}", "data");
-                    allProjects.Add(projectId, result.ReturnedObject);
-                });
+                    var projectFromApi = client.GetSingle<AsanaProject>($"/projects/{projectId}", "data");
+                    allProjects.Add(projectId, projectFromApi.ReturnedObject);
 
-            Parallel.ForEach(projectIds,
-                projectId =>
-                {
-                    var result = client.GetMany<AsanaTask>($"/projects/{projectId}/tasks", "data");
-                    allProjects[projectId].Tasks.AddRange(result.ReturnedObject);
+                    var tasksForProject = client.GetMany<AsanaTask>($"/projects/{projectId}/tasks", "data");
+                    allProjects[projectId].Tasks.AddRange(tasksForProject.ReturnedObject);
                 });
 
             return allProjects.Values.ToList();
