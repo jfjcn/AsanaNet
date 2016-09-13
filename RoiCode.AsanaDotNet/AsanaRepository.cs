@@ -85,23 +85,13 @@ namespace RoiCode.AsanaDotNet
             return result.ReturnedObject;
         }
 
-        public AsanaTask CreateAsanaTask(string taskName, AsanaUser userToWhichToAssignTask, 
-            AsanaProject projectToWhichToAddTask, long workspaceId)
+        public AsanaTask CreateAsanaTask(string taskName, AsanaUser userToWhichToAssignTask, AsanaWorkspace workspaceToWichToAddTask)
         {
-            //TODO: see if we still need this workspace
             var client =
                 new RoiRestClient(
                     AsanaBaseUrl, new
                     RoiAsanaAuthenticator(AsanaPersonalAccessToken),
                     true);
-
-            var taskToBeCreated = new AsanaTask()
-            {
-                Assignee = userToWhichToAssignTask,
-                Name = taskName,
-            };
-
-            taskToBeCreated.Projects.Add(projectToWhichToAddTask);
 
             var dataToPost = new RestDataContainerForPost()
             {
@@ -109,9 +99,30 @@ namespace RoiCode.AsanaDotNet
                 {
                     assignee = userToWhichToAssignTask.ID,
                     name = taskName,
-                    notes = "test notes",
-                    projects = projectToWhichToAddTask.ID.ToString(),
-                    workspace = workspaceId
+                    workspace = workspaceToWichToAddTask.ID
+                }
+            };
+
+            var result = client.Post<AsanaTask>($"tasks", dataToPost, "data");
+            return result.ReturnedObject;
+        }
+
+        public AsanaTask CreateAsanaTask(string taskName, AsanaUser userToWhichToAssignTask,
+            AsanaProject projectToWhichToAddTask)
+        {
+            var client =
+                new RoiRestClient(
+                    AsanaBaseUrl, new
+                    RoiAsanaAuthenticator(AsanaPersonalAccessToken),
+                    true);
+
+            var dataToPost = new RestDataContainerForPost()
+            {
+                data = new AsanaTaskPostModel()
+                {
+                    assignee = userToWhichToAssignTask.ID,
+                    name = taskName,
+                    projects = projectToWhichToAddTask.ID.ToString()
                 }
             };
 

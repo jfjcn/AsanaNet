@@ -79,7 +79,31 @@ namespace AsanaNetSpecs
         }
 
         [Test]
-        public void _050_we_should_be_able_to_create_a_new_task()
+        public void _050_we_should_be_able_to_create_a_new_task_to_a_workspace()
+        {
+            var userToWhichToAssignTask =
+                new AsanaUser()
+                {
+                    ID = AsanaMainUserId
+                };
+
+            var workspaceToWhichToAddTask =
+                new AsanaWorkspace()
+                {
+                    ID = BulletJournalWorkspaceId
+                };
+
+            var newlyCreatedTask =
+                AsanaRepository.CreateAsanaTask(
+                    "new task created from specs for a workspace",
+                    userToWhichToAssignTask,
+                    workspaceToWhichToAddTask);
+
+            Assert.That(newlyCreatedTask.ID, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void _060_we_should_be_able_to_create_a_new_task_to_a_project()
         {
             var userToWhichToAssignTask =
                 new AsanaUser()
@@ -95,10 +119,9 @@ namespace AsanaNetSpecs
 
             var newlyCreatedTask =
                 AsanaRepository.CreateAsanaTask(
-                    "new task created from specs",
+                    "new task created from specs for the daily project",
                     userToWhichToAssignTask,
-                    projectToWhichToAddTask,
-                    BulletJournalWorkspaceId);
+                    projectToWhichToAddTask);
 
             Assert.That(newlyCreatedTask.ID, Is.GreaterThan(0));
         }
