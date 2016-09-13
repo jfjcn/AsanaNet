@@ -95,7 +95,7 @@ namespace RoiCode.AsanaDotNet
 
             var dataToPost = new RestDataContainerForPost()
             {
-                data = new AsanaTaskPostModel()
+                data = new AsanaTaskPostModelForWorkspaces()
                 {
                     assignee = userToWhichToAssignTask.ID,
                     name = taskName,
@@ -118,7 +118,7 @@ namespace RoiCode.AsanaDotNet
 
             var dataToPost = new RestDataContainerForPost()
             {
-                data = new AsanaTaskPostModel()
+                data = new AsanaTaskPostModelForProjects()
                 {
                     assignee = userToWhichToAssignTask.ID,
                     name = taskName,

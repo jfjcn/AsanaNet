@@ -103,7 +103,7 @@ namespace AsanaNetSpecs
         }
 
         [Test]
-        public void _060_we_should_be_able_to_create_a_new_task_to_a_project()
+        public void _060_we_should_be_able_to_create_a_new_task_to_our_daily_project()
         {
             var userToWhichToAssignTask =
                 new AsanaUser()
